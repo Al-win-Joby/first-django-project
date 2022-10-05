@@ -11,7 +11,7 @@
 
     <!-- Favicon -->
     <link href="{% static 'assets/admins/img/favicon.ico' %}" rel="icon">
-
+    
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,6 +30,9 @@
 
     <!-- Template Stylesheet -->
     <link href="{% static 'assets/admins/css/style.css ' %}" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/i18n/zh-TW.min.js" integrity="sha512-whWyZS4LtoXu4LzFJbHIgL9Cr7Sf2+KyeEAGumtXN+8U234v1R89monfd9PLYnC0TNBArmPnkFOVo8ShuMpZaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+   
+    
 </head>
 
 <body>
@@ -55,8 +58,8 @@
                 <!-- <img src="{% static 'assets/admins/img/testimonial-2.jpg' %}" alt=""> -->
                 <div class="navbar-nav w-100">
                     <a href="{% url 'adminhome' %}" class="nav-item nav-link "><i class="fa fa-user-alt me-2"></i>Users</a>
-                    <a href="{% url 'adminproduct' %}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Products</a>
-                    <a href="{% url 'categories' %}" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>Category</a>
+                    <a href="{% url 'adminproduct' %}" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>Products</a>
+                    <a href="{% url 'categories' %}" class="nav-item nav-link "><i class="fa fa-th me-2"></i>Category</a>
                     <a href="" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Sales Report</a>
                     <a href="" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
                     <a href="" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
@@ -136,26 +139,56 @@
             <div class="container-fluid pt-4 px-4">
                 <div class="row g-4"> 
                     <div class="col-sm-12 col-xl-6 mx-auto">
-                        <form action="{% url 'addthiscategory' %}" method="POST"  enctype="multipart/form-data">
+                        <form action="{% url 'addthisproduct' %}" method="POST"  enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="bg-secondary rounded h-100 p-4">
-                            <h6 class="mb-4">Add category</h6>
+                            <h6 class="mb-4">Add Product</h6>
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="floatingInput"
-                                    placeholder="Jeans" name="catname">
-                                <label for="floatingInput">Category Name</label>
+                                    placeholder="" name="productname">
+                                <label for="floatingInput">Product Name</label>
+                            </div>
+                            <div class="form-floating mb-3 row">
+                                <div class="col-6">
+                                <input type="number" class="form-control" id="floatingInput"
+                                    placeholder="Price" name="productprice">
+                                <label for="floatingInput"></label>
+                                </div>
+                                <div class="col-6">
+                                    <input type="number" class="form-control" id="floatingInput"
+                                        placeholder="Available Stock" name="stock">
+                                    <label for="floatingInput"></label>
+                                </div>
                             </div>
                             
                             <div class="form-floating">
                                 <textarea class="form-control" placeholder="Leave a description here"
-                                     style="height: 150px;" name="catdescription"></textarea>
+                                     style="height: 150px;" name="productdescription"></textarea>
                                 <label for="floatingTextarea">Description</label>
                             </div>
                             <br>
+                            <div class="form-floating mb-3">
+                                <select id="select1" name="categoryselected" class="form-select mb-3" >
+                                    <option disabled selected="true" >Select Category</option>
+                                    {% for category in categories %}
+                                    <option value={{category.id}} >{{category.category_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="form-floating mb-3">
+                                <select id="select2" name="subcategoryselected" class="form-select mb-3" >
+                                    <option  selected="True">Select Subcategory</option>
+                                    {% for subcategory in subcategories %}
+                                    <option value={{subcategory.category_name.id}}>{{subcategory.subcategory_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                             <div class="mb-3">
                                 <label for="floatingTextarea">Upload Image</label>
-                                <input class="form-control bg-dark" type="file" name="categoryimage" >
+                                <input class="form-control bg-dark" type="file" name="productimage" >
                             </div>
+                           
                             
                             <button type="submit" class="btn btn-primary">Add</button>
                         </div>
@@ -192,6 +225,19 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function()
+        { 
+        var $select1=$("#select1"),
+            $select2=$("#select2"),
+            $options=$select2.find('option');
+            $select1.on('change',function()
+            {
+                $select2.html($options.filter('[value="'+this.value+'"]'));
+            }).trigger('change');
+        });
+    </script>
 </body>
 
 </html>

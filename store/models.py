@@ -1,11 +1,7 @@
-from cgi import print_exception
-from email.policy import default
-from enum import unique
-from operator import truediv
-from unicodedata import category
+
 from django.db import models
 
-from category.models import Category
+from category.models import Category, Subcategory
 
 # Create your models here.
 class Products(models.Model):
@@ -16,7 +12,8 @@ class Products(models.Model):
     images          =models.ImageField(upload_to='photos/store')
     stock           =models.IntegerField()
     is_available    =models.BooleanField(default=True)
-    category        =models.ForeignKey(Category,on_delete=models.CASCADE)
+    category_name        =models.ForeignKey(Category,on_delete=models.CASCADE)
+    subcategory_name    =models.ForeignKey(Subcategory,on_delete=models.CASCADE)
     
     created_date    =models.DateTimeField(auto_now_add=True)
     modified_date   =models.DateTimeField(auto_now_add=True)

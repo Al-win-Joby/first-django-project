@@ -22,7 +22,7 @@
                                     <th scope="col">Admin</th>
                                     <th scope="col">Active</th>
                                     <th scope="col">Action</th>
-                                    <th scope="col">Delete</th>
+                                    {% comment %} <th scope="col">Delete</th> {% endcomment %}
                                 </tr>
                             </thead>
                             <tbody>
@@ -48,10 +48,10 @@
                                     </form>
                                     
 
-                                    <form action="{% url 'delete' pk=i.id %}"  method="post">
+                                    {% comment %} <form action="{% url 'delete' pk=i.id %}"  method="post">
                                     {% csrf_token %}
                                     <td><button class="btn btn-sm btn-primary" onclick=checker()>Delete</button></td>
-                                    </form>
+                                    </form> {% endcomment %}
                                 </tr>
                                 {% endfor %}
                             </tbody>

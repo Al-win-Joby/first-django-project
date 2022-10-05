@@ -51,8 +51,9 @@
                 <!-- <img src="{% static 'assets/admins/img/testimonial-2.jpg' %}" alt=""> -->
                 <div class="navbar-nav w-100">
                     <a href="{% url 'adminhome' %}" class="nav-item nav-link"><i class="fa fa-user-alt me-2"></i>Users</a>
-                    <a href="" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>Store</a>
+                    <a href="{% url 'adminproduct' %}" class="nav-item nav-link active"><i class="fa fa-th me-2"></i>Products</a>
                     <a href="{% url 'categories' %}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Category</a>
+                    <a href="{% url 'subcategories' %}" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Subcategory</a>
                     <a href="" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>Sales Report</a>
                     <a href="" class="nav-item nav-link"><i class="fa fa-table me-2"></i>Tables</a>
                     <a href="" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
@@ -139,16 +140,20 @@
             <div class="container-fluid pt-4 px-4">
                 <div class="bg-secondary text-center rounded p-4">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <h6 class="mb-0">Category Details</h6>
-                        <a href="{% url 'addcategory' %}">Add Category</a>
+                        <h6 class="mb-0">Product Details</h6>
+                        <a href="{% url 'addproduct' %}">Add Product</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table text-start align-middle table-bordered table-hover mb-0">
                             <thead>
                                 <tr class="text-white">
                                     
-                                    <th scope="col">Category Name</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Category</th>
+                                    <th scope="col">Sub Category</th>
                                     <th scope="col">Description</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Stock</th>
                                     <th scope="col">Image</th>
                                     <th scope="col">Action</th>
                                     <th scope="col">Delete</th>
@@ -158,17 +163,23 @@
                                 {% for i in key1 %}
                                 <tr>
                                     
+                                    <td>{{i.product_name}}</td>
                                     <td>{{i.category_name}}</td>
-                                    <td>{{i.description}}</td>
-                                    <td><img class="" src="{{ i.category_image.url }}" height="75px" width="75px" alt="">   </td>
+                                    <td>{{i.subcategory_name }}</td>
+
+                                    <td>{{i.desciption}}</td>
+                                    <td>{{i.price}}</td>
+                                    <td>{{i.stock}}</td>
+                                    <td><img class="" src="{{ i.images.url }}" height="75px" width="auto" alt="">   </td>
                                     
                                     <form action=""  method="post">
-                                    
+                                    {% csrf_token %}
+
                                     <td><button class="btn btn-sm btn-success" type="submit">Modify</button></td>
                                     
                                     </form>
                                     
-                                    <form action="{% url 'deletecategory' pk=i.id %}"  method="post">
+                                    <form action="{% url 'deleteproduct' pk=i.id %}"  method="post">
                                     {% csrf_token %}
                                     <td><button class="btn btn-sm btn-primary" onclick=checker()>Delete</button></td>
                                     </form>

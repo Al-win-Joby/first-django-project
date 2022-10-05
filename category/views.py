@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from category.models import Category
+from category.models import Category,Subcategory
 import re
 # Create your views here.
 @login_required(login_url='login')
@@ -14,8 +14,8 @@ def categories(request):
     return render(request,'admincategory.html',context)
 
 @login_required(login_url='login')
-def addcat(request):
-    name= request.user.username
+def addcat(request):                                   
+    name= request.user.username         
     return render (request,'addcategory.html',{'name':name})
 
 @login_required(login_url='login')
@@ -50,6 +50,7 @@ def deletecategory(request,pk):
     return redirect('categories')
 
 @login_required(login_url='login')
+
 def modifycategory(request,pk):
     get_data=Category.objects.get(id=pk)
     name= request.user.username
@@ -83,3 +84,10 @@ def modifythiscategory(request,pk):
     #     return render (request,'modifycategory.html',context)
     upadte_data.save()
     return redirect('categories')    
+
+def subcategories(request):
+    name= request.user.username
+    key1=Subcategory.objects.all().order_by('id')
+    context={'name':name,'key1':key1}
+    return render(request,'adminsubcategory.html',context)
+    
